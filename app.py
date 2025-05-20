@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import pyplot.express as px
 
 # Configuración de la página
 st.set_page_config(page_title="Dashboard de Inteligencia Comercial", layout="wide")
