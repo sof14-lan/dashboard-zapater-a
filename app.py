@@ -45,15 +45,15 @@ tab1, tab2, tab3, tab4 = st.tabs(["🌍 Factores de Ingreso", "📈 Demanda", "�
 
 with tab1:
     st.subheader("Factores de Ingreso al Mercado")
-    datos = datos_ingreso[datos_ingreso['País'] == pais_seleccionado].set_index("País")
+    datos = datos_ingreso[datos_ingreso['País'] == pais_seleccionado].drop(columns=["País"])
     st.bar_chart(datos.T)
 
 with tab2:
     st.subheader("Demanda por Género")
-    datos = datos_demanda[datos_demanda['País'] == pais_seleccionado].set_index("País")
+    datos = datos_demanda[datos_demanda['País'] == pais_seleccionado].drop(columns=["País"])
     fig = px.pie(
-        names=datos.columns,
-        values=datos.iloc[0],
+        names=datos.columns.tolist(),
+        values=datos.values.flatten().tolist(),
         title=f"Distribución de la Demanda en {pais_seleccionado}",
         hole=0.4
     )
@@ -61,26 +61,26 @@ with tab2:
 
 with tab3:
     st.subheader("Riesgos del País")
-    datos = datos_riesgo[datos_riesgo['País'] == pais_seleccionado].set_index("País")
+    datos = datos_riesgo[datos_riesgo['País'] == pais_seleccionado].drop(columns=["País"])
     fig = px.bar(
-        x=datos.columns,
-        y=datos.iloc[0],
+        x=datos.columns.tolist(),
+        y=datos.values.flatten().tolist(),
         labels={"x": "Tipo de Riesgo", "y": "Nivel"},
         title=f"Niveles de Riesgo en {pais_seleccionado}",
-        color=datos.iloc[0],
+        color=datos.values.flatten().tolist(),
         color_continuous_scale="Reds"
     )
     st.plotly_chart(fig)
 
 with tab4:
     st.subheader("Análisis de la Competencia")
-    datos = datos_competencia[datos_competencia['País'] == pais_seleccionado].set_index("País")
+    datos = datos_competencia[datos_competencia['País'] == pais_seleccionado].drop(columns=["País"])
     fig = px.bar(
-        x=datos.columns,
-        y=datos.iloc[0],
+        x=datos.columns.tolist(),
+        y=datos.values.flatten().tolist(),
         labels={"x": "Competidor", "y": "Presencia de Mercado"},
         title=f"Competencia en {pais_seleccionado}",
-        color=datos.iloc[0],
+        color=datos.values.flatten().tolist(),
         color_continuous_scale="Blues"
     )
     st.plotly_chart(fig)
